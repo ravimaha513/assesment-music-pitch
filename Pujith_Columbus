@@ -1,0 +1,87 @@
+import java.util.*;
+
+public class Solution {
+    public static void main(String[] argv) {
+        String[] song1 = {"F4", "B4", "C5"};
+        String[] song2 = {"C3", "E3", "G3", "C4", "E4", "G4", "C5"};
+        String[] song3 = {"B4", "F5", "B5" };
+        String[] song4 = {"B4", "E4", "G4", "G4", "A4", "B4", "E4",
+                "B4", "E4", "G4", "G4", "A4", "C5", "B4",
+                "E5", "G4", "G4", "A4", "B4", "C5", "D5",
+                "C5", "B4", "C5", "E5", "D5", "C5", "C5",
+                "B4", "B4", "E5", "E4", "G4", "G4", "A4",
+                "B4", "B4", "B4", "C5", "E5", "A5", "E5",
+                "C5", "A4", "E5", "D5", "C5", "B4"};
+        String[] song5 = {"F4"};
+
+        System.out.println(singable(song1, "F4", "C5")); // true
+        System.out.println(singable(song1, "A4", "C5")); // false
+        System.out.println(singable(song2, "B2", "C5")); // true
+        System.out.println(singable(song2, "C3", "B4")); // false
+        System.out.println(singable(song3, "B4", "B5")); // true
+        System.out.println(singable(song3, "B4", "C5")); // false
+        System.out.println(singable(song4, "D4", "A5")); // true
+        System.out.println(singable(song4, "D4", "G5")); // false
+        System.out.println(singable(song4, "D4", "C6")); // true
+        System.out.println(singable(song4, "F4", "C6")); // false
+        System.out.println(singable(song5, "D4", "E4")); // false
+    }
+
+    public static boolean singable(String[] song, String lowerNote, String higherNote) {
+        Map<String, Integer> noteOrder = createNoteOrderMap();
+        int lowerOctave = getOctave(lowerNote);
+        int higherOctave = getOctave(higherNote);
+        int lowerPitch = noteOrder.get(getPitch(lowerNote));
+        int higherPitch = noteOrder.get(getPitch(higherNote));
+
+        for (String note : song) {
+            int noteOctave = getOctave(note);
+            int notePitch = noteOrder.get(getPitch(note));
+
+            if (noteOctave < lowerOctave || noteOctave > higherOctave) {
+                return false;
+            }
+
+            if (noteOctave == lowerOctave && notePitch < lowerPitch) {
+                return false;
+            }
+
+            if (noteOctave == higherOctave && notePitch > higherPitch) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+
+
+    private static String getPitch(String note) {
+        return note.substring(0, 1);
+    }
+
+    private static int getOctave(String note) {
+        return Integer.parseInt(note.substring(1));
+    }
+
+    private static Map<String, Integer> createNoteOrderMap() {
+        Map<String, Integer> noteOrder = new HashMap<>();
+        noteOrder.put("C", 1);
+        noteOrder.put("D", 2);
+        noteOrder.put("E", 3);
+        noteOrder.put("F", 4);
+        noteOrder.put("G", 5);
+        noteOrder.put("A", 6);
+        noteOrder.put("B", 7);
+        return noteOrder;
+    }
+}
+
+
+
+
+
+
+
+
