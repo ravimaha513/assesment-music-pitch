@@ -1,51 +1,23 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Singable {
     public boolean Singable(String[] song, String low, String high) {
-        String pitchOrder = "CDEFGAB";
+        List<String> pitchOrder = new ArrayList<>(List.of("C", "D", "E", "F", "G", "A", "B"));
+        int lowestOctave = Integer.parseInt(low.substring(1));
+        int highestOctave = Integer.parseInt(high.substring(1));
 
-        String lowNote = song[0];
-        int lastIndex = song.length - 1;
-        String highNote = song[lastIndex];
+        for (String note : song) {
+            int octave = Integer.parseInt(note.substring(1));
+            String pitch = note.substring(0, 1);
 
-        String lowPitch = lowNote.substring(0, 1);
-        int lowOctave = Integer.parseInt(lowNote.substring(1));
-
-        String inputPitch = low.substring(0, 1);
-        int inputOctave = Integer.parseInt(low.substring(1));
-
-        String highPitch = highNote.substring(0, 1);
-        int highOctave = Integer.parseInt(highNote.substring(1));
-
-        String inputHighPitch = high.substring(0, 1);
-        int inputHighOctave = Integer.parseInt(high.substring(1));
-
-        if (lowOctave > inputOctave) {
-            if (pitchOrder.indexOf(lowPitch) == pitchOrder.indexOf(inputPitch)) {
+            if (octave < lowestOctave || octave > highestOctave) {
                 return false;
-            } else if (pitchOrder.indexOf(lowPitch) > pitchOrder.indexOf(inputPitch)) {
+            } else if (octave == lowestOctave && pitchOrder.indexOf(pitch) < pitchOrder.indexOf(low.substring(0, 1))) {
                 return false;
-            }
-        } else if (lowOctave < inputOctave) {
-            if (pitchOrder.indexOf(lowPitch) > pitchOrder.indexOf(inputPitch)) {
-                return false;
-            }
-        } else {
-            if (pitchOrder.indexOf(lowPitch) < pitchOrder.indexOf(inputPitch)) {
-                return false;
-            }
-        }
-
-        if (highOctave > inputHighOctave) {
-            if (pitchOrder.indexOf(highPitch) == pitchOrder.indexOf(inputHighPitch)) {
-                return false;
-            } else if (pitchOrder.indexOf(highPitch) < pitchOrder.indexOf(inputHighPitch)) {
-                return false;
-            }
-        } else if (highOctave < inputHighOctave) {
-            return pitchOrder.indexOf(highPitch) >= pitchOrder.indexOf(inputHighPitch);
-        } else {
-            if (pitchOrder.indexOf(highPitch) > pitchOrder.indexOf(inputHighPitch)) {
+            } else if (octave == highestOctave && pitchOrder.indexOf(pitch) > pitchOrder.indexOf(high.substring(0, 1))) {
                 return false;
             }
         }
