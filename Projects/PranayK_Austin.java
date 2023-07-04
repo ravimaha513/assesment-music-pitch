@@ -1,5 +1,5 @@
 package org.example;
-public class Suketh_Evani_Austin{
+public class Pranay_K_Austin{
 
     private static boolean isNoteWithinRange(String note, String lowestNote, String highestNote) {
         int noteValue = getNoteValue(note); // get relative value of note using substring and getNoteValue function
